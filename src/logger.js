@@ -1,10 +1,10 @@
-const log = (msg) => console.log(msg);
+const log = (...args) => console.log(...args);
 
-const warn = (msg) => console.warn(msg);
+const warn = (...args) => console.warn(...args);
 
-const error = (msg) => console.error(msg);
+const error = (...args) => console.error(...args);
 
-const debug = (msg) => console.debug(msg);
+const debug = (...args) => console.debug(...args);
 
 module.exports = {
     log, 

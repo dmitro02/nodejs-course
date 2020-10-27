@@ -11,4 +11,4 @@ const server = http.createServer((req, res) => {
     res.end(`Hello world! (ENV: ${env})`);
 });
 
-server.listen(port, () => logger.log(`Listening on port ${port}...`));
+server.listen(port, () => logger.log('Listening on port %s...', port));
