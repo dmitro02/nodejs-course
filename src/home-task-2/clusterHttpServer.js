@@ -1,5 +1,6 @@
 const cluster = require('cluster');
 const http = require('http');
+const { fibonacci } = require('./utils/fibonacci');
 
 if (cluster.isMaster) {
   console.log(`Master ${process.pid} is running`);
@@ -14,7 +15,12 @@ if (cluster.isMaster) {
 } else {
   http.createServer((req, res) => {
     res.writeHead(200);  
-    res.end(JSON.stringify({ responder: process.pid }));
+    res.end(JSON.stringify(
+      { 
+        result: fibonacci(34),
+        responder: process.pid
+      }
+    ));
   }).listen(3333);
 
   console.log(`Worker ${process.pid} started`);
