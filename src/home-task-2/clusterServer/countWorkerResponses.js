@@ -1,4 +1,4 @@
-const { doGet } = require('./doHttpRequest');
+const { doGet } = require('../utils/doHttpRequest');
 
 const url = "http://localhost:3333";
 const numberOfRequests = 100;

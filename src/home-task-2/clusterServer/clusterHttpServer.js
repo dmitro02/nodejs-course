@@ -1,6 +1,6 @@
 const cluster = require('cluster');
 const http = require('http');
-const { fibonacci } = require('./utils/fibonacci');
+const { fibonacci } = require('../utils/fibonacci');
 
 if (cluster.isMaster) {
   console.log(`Master ${process.pid} is running`);
@@ -25,13 +25,3 @@ if (cluster.isMaster) {
 
   console.log(`Worker ${process.pid} started`);
 }
-
-/**
-OUTPUT:
-==================
-Master 13624 is running
-Worker 29936 started
-Worker 19916 started
-Worker 37724 started
-Worker 8524 started
-*/
