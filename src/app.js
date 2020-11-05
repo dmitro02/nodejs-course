@@ -1,14 +1,13 @@
-const http = require('http');
-const logger = require('./logger')
+const express = require('express')
 const config = require('./config')
 
-const port = config.port ? config.port : 3000;
-const env = config.env ? config.env : 'test';
+const app = express()
+const port = config.port
 
-const server = http.createServer((req, res) => {
-    res.statusCode = 200;
-    res.setHeader('Content-Type', 'application/json');
-    res.end(`Hello world! (ENV: ${env})`);
-});
+app.get('/', (req, res) => {
+  res.send('Hello World!')
+})
 
-server.listen(port, () => logger.log('Listening on port %s...', port));
+app.listen(port, () => {
+  console.log(`Server listening at http://localhost:${port}`)
+})
