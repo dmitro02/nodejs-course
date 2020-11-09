@@ -1,0 +1,11 @@
+id,title,datetime,repeat,location,room,link,description
+1,trenning,2020-11-11T10:30:00.000Z,weekly,online,,https://teams.microsoft.com/l/meetup-join/abc
+2,allhends,2020-11-08T14:14:58.000Z,,odessa,11,
+3,stendup,2020-11-08T14:14:58.000Z,dayly,odessa,22
+4,planning,2020-11-08T14:14:58.000Z,,online,,https://bluejeans.com/123
+5,retrospective,2020-11-08T14:14:58.000Z,monthly,odessa
+6,english lesson,2020-11-08T14:14:58.000Z,weekly,odessa,10
+7,conference,2020-11-08T14:14:58.000Z,,lviv
+8,party,2020-11-08T14:14:58.000Z,,kyiv
+9,teambuilding,2020-11-08T14:14:58.000Z,,odessa
+10,interview,2020-11-08T14:14:58.000Z,,odessa,15
