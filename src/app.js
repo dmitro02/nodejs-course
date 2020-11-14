@@ -1,14 +1,40 @@
-const http = require('http');
-const logger = require('./logger')
-const config = require('./config')
+const express = require('express')
+const { 
+  getEvents, 
+  getEventById, 
+  createEvent,
+  updateEvent,
+  deleteEvent
+} = require('./csvUtils')
+const { port } = require('./config')
 
-const port = config.port ? config.port : 3000;
-const env = config.env ? config.env : 'test';
+const app = express()
+app.use(express.json())
 
-const server = http.createServer((req, res) => {
-    res.statusCode = 200;
-    res.setHeader('Content-Type', 'application/json');
-    res.end(`Hello world! (ENV: ${env})`);
-});
+app.get('/events', (req, res) => {
+  getEvents(req.query.location).pipe(res)
+})
 
-server.listen(port, () => logger.log('Listening on port %s...', port));
+app.get('/events/:eventId', (req, res) => {
+  getEventById(req.params.eventId).pipe(res)
+})
+
+app.post('/events', async (req, res) => {
+  await createEvent(req.body)
+  res.sendStatus(201)
+})
+
+app.put('/events/:eventId', (req, res) => {
+  updateEvent(req.params.eventId, req.body)
+    .then((result) => res.end(result))
+    .catch((error) => res.sendStatus(500).end(error))
+})
+
+app.delete('/events/:eventId', (req, res) => {
+  deleteEvent(req.params.eventId,)
+  .then((result) => res.end(result))
+  .catch((error) => res.sendStatus(500).end(error))
+})
+
+app.listen(port, () =>
+  console.log(`Server listening at http://localhost:${port}`))

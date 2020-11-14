@@ -1,0 +1,26 @@
+{
+  "name": "nodejs-course",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "node src/app.js",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "clean": "rm -f calendar-data.tmp && cp calendar-data.orig.csv calendar-data.csv"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/dmitro02/nodejs-course.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/dmitro02/nodejs-course/issues"
+  },
+  "homepage": "https://github.com/dmitro02/nodejs-course#readme",
+  "dependencies": {
+    "csvtojson": "^2.0.10",
+    "express": "^4.17.1"
+  }
+}
