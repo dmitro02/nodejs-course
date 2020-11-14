@@ -20,14 +20,14 @@
 curl --request POST 'http://localhost:3003/events' \
 --header 'Content-Type: application/json' \
 --data-raw '{
-    "id":100,
     "title":"PE",
+    "description":"",
     "datetime":"2020-11-11T10:30:00.000Z",
-    "repeat":"yearly",
     "location":"odessa",
+    "repeat":"yearly",
     "room":12,
     "link":"",
-    "description":""
+    "id":100
 }'
 ```
 
