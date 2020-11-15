@@ -45,19 +45,27 @@ const getUserById = (req, res) => {
   res.end('user' + id)
 }
 
-const createEvent = (req, res) => {
-  res.writeHead(201)
-  res.end('Event created')
-}
-
-const createUser = (req, res) => {
-  res.writeHead(201)
-  res.end('User created')
-}
-
 const getMainPage = (req, res) => {
   res.writeHead(200)
   res.end('<h1>Main Page</h1>')
+}
+
+const createEvent = (req, res) => {
+  let data = ''
+  req.on('data', (chunk) => data += chunk)
+  req.on('end', () => {
+    res.writeHead(201)
+    res.end('Event created: ' + data)
+  })
+}
+
+const createUser = (req, res) => {
+  let data = ''
+  req.on('data', (chunk) => data += chunk)
+  req.on('end', () => {
+    res.writeHead(201)
+    res.end('User created: ' + data)
+  })
 }
 
 const notFoundHandler = (req, res) => {
