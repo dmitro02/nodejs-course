@@ -21,6 +21,10 @@
   "homepage": "https://github.com/dmitro02/nodejs-course#readme",
   "dependencies": {
     "csvtojson": "^2.0.10",
-    "express": "^4.17.1"
-  }
+    "express": "^4.17.1",
+    "express-pino-logger": "^5.0.0",
+    "nanoid": "^3.1.16",
+    "pino": "^6.7.0"
+  },
+  "devDependencies": {}
 }

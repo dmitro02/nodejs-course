@@ -1,4 +1,7 @@
 const http = require('http')
+const logger = require('./logger')
+const { nanoid } = require('nanoid')
+const { AsyncLocalStorage } = require('async_hooks') 
 
 const port = 8000
 
@@ -89,11 +92,25 @@ const routes = {
   ]
 }
 
-const server = http.createServer((req, res) =>
-  routes[req.method.toUpperCase()]
-    .find((it) => it[0].test(req.url))[1](req, res)
-)
+const asyncLocalStorage = new AsyncLocalStorage()
 
-server.listen(port, () =>
-  console.log(`Server is running on port ${port}`)
-)
+const server = http.createServer((req, res) => {
+  asyncLocalStorage.run(nanoid(), () => {
+    logRequest(req)
+    routes[req.method.toUpperCase()]
+    .find((it) => it[0].test(req.url))[1](req, res)
+  }) 
+})
+
+server.listen(port, () => logger.info(`Server is running on port ${port}`))
+
+const logRequest = (req) => {
+  const { method, url } = req  
+  logger.info({
+    request: {
+      id: asyncLocalStorage.getStore(),
+      method,
+      url
+    }
+  })
+}

@@ -1,11 +1,9 @@
 # nodejs-course
 
-## Home Task 3
-
 - `npm install`
+- `npm start` - run Express Server on default port 3003 
 - `npm run clean` - can be used to restore initial dataset
-
-**NOTE**: Endpoint `event-batch` is not implememnted because `events` enpoint (with possible filtering by location) already implemented using streams.
+- `node src/httpsServer` - run custom HTTP Server on default port 8000
 
 ### Request examples
 
