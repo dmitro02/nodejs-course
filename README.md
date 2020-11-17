@@ -5,7 +5,9 @@
 - `npm run clean` - can be used to restore initial dataset
 - `node src/httpsServer` - run custom HTTP Server on default port 8000
 
-### Request examples
+***
+
+## Request examples
 
 **Get all events:**
 `curl http://localhost:3003/events`
@@ -44,4 +46,37 @@ curl --request PUT 'http://localhost:3003/events/3' \
 ```
 
 **Delete event:**
-curl --request DELETE 'http://localhost:3003/events/3'
+`curl --request DELETE 'http://localhost:3003/events/3'`
+
+***
+
+## Request examples for custom HTTP Server
+
+`curl http://localhost:8000/`
+
+`curl http://localhost:8000/events`
+
+`curl http://localhost:8000/events/1`
+
+`curl http://localhost:8000/users`
+
+`curl http://localhost:8000/users/1`
+
+`curl http://localhost:8000/foo`
+
+```
+curl --request POST 'http://localhost:8000/events' \
+--header 'Content-Type: application/json' \
+--data-raw '{
+    "title": "event10"
+}'
+```
+
+```
+curl --request POST 'http://localhost:8000/users' \
+--header 'Content-Type: application/json' \
+--data-raw '{
+    "title": "event10"
+}'
+```
+
