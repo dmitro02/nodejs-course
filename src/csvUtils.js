@@ -16,25 +16,25 @@ const dataFile = path.join(__dirname, '../calendar-data.csv')
 const tempFile = path.join(__dirname, '../calendar-data.tmp')
 
 const getEvents = (location) => {
-  const readStream = createReadStream(dataFile)
-
   const filter = new Filter()
   if (location) {
     filter.predicate = (it) => JSON.parse(it).location === location
   }
-    
-  return readStream 
+
+  return createReadStream(dataFile) 
+    .on('error', (e) => filter.emit('error', e))
     .pipe(csv())
+    .on('error', (e) => filter.emit('error', e))
     .pipe(filter)
 }
 
 const getEventById = (eventId) => {
-  const readStream = createReadStream(dataFile)
-
   const filter = new Filter((it) => JSON.parse(it).id === eventId)
     
-  return readStream 
+  return createReadStream(dataFile) 
+    .on('error', (e) => filter.emit('error', e))
     .pipe(csv())
+    .on('error', (e) => filter.emit('error', e))
     .pipe(filter)
 }
 
@@ -46,6 +46,9 @@ const updateEvent = (eventId, eventJson) => {
   return new Promise((resolve, reject) => {
     const readStream = createReadStream(dataFile)
     const writeStream = createWriteStream(tempFile)
+
+    readStream.on('error', reject)
+    writeStream.on('error', reject)
   
     const rl = readline.createInterface({
       input: readStream,
@@ -65,9 +68,9 @@ const updateEvent = (eventId, eventJson) => {
         writeStream.close()
         await unlink(dataFile)
         await rename(tempFile, dataFile)
-        resolve(`event with ID=${eventId} successfully updated`)
+        resolve()
       } catch(e) {
-        reject(`failed to update event with ID=${eventId}\n\n${e}`)
+        reject(e)
       }
     })
   })
@@ -77,6 +80,9 @@ const deleteEvent = (eventId) => {
   return new Promise((resolve, reject) => {
     const readStream = createReadStream(dataFile)
     const writeStream = createWriteStream(tempFile)
+
+    readStream.on('error', reject)
+    writeStream.on('error', reject)
 
     const rl = readline.createInterface({
       input: readStream,
@@ -94,9 +100,9 @@ const deleteEvent = (eventId) => {
         writeStream.close()
         await unlink(dataFile)
         await rename(tempFile, dataFile)
-        resolve(`event with ID=${eventId} successfully deleted`)
+        resolve()
       } catch(e) {
-        reject(`failed to delete event with ID=${eventId}\n\n${e}`)
+        reject(e)
       }
     })
   })

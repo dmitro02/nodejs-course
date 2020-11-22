@@ -1,14 +1,5 @@
-const log = (...args) => console.log(...args);
+const pino = require('pino')
 
-const warn = (...args) => console.warn(...args);
+const logger = pino({ level: process.env.LOG_LEVEL || 'info' })
 
-const error = (...args) => console.error(...args);
-
-const debug = (...args) => console.debug(...args);
-
-module.exports = {
-    log, 
-    warn, 
-    error, 
-    debug
-}
+module.exports = logger
