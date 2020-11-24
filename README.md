@@ -40,6 +40,23 @@ curl --request PUT 'http://localhost:3003/events/1' \
 **Delete event:**
 `curl --request DELETE 'http://localhost:3003/events/1'`
 
+**Create user:**
+```
+curl --request POST 'http://localhost:3003/users' \
+--header 'Content-Type: application/json' \
+--data-raw '{
+    "email":"testuser@some.net",
+    "first_name":"Test",
+    "last_name":"Peretest"
+}'
+```
+
+**Delete user:**
+`curl --request DELETE 'http://localhost:3003/users/5'`
+
+**Invite user:**
+`curl --request POST 'http://localhost:3003/participants?eventId=1&userId=1&userId=2&userId=3'`
+
 ***
 
 ## Request examples for custom HTTP Server
