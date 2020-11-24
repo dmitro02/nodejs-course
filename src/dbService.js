@@ -1,14 +1,22 @@
+const { 
+    dbHost, 
+    dbPort, 
+    dbName, 
+    dbUser, 
+    dbPass, 
+    dbDialect 
+} = require('./config')
 const { Sequelize } = require('sequelize')
 const initModels = require('./models/init-models')
 const logger = require('./logger')
 
 const sequelize = new Sequelize({
-    host: '34.89.206.41',
-    port: 3306,
-    database: 'calendar',
-    username: 'root',
-    password: 'bosean',
-    dialect: 'mysql'
+    host: dbHost,
+    port: dbPort,
+    database: dbName,
+    username: dbUser,
+    password: dbPass,
+    dialect: dbDialect
 });
 
 const {
