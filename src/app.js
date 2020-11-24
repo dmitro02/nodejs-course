@@ -6,7 +6,11 @@ const {
   getEvents,
   getEventById, 
   updateEvent,
-  deleteEvent
+  deleteEvent,
+  createUser,
+  deleteUser,
+  inviteUser,
+  inviteUsers
 } = require('./dbService')
 
 const { port } = require('./config')
@@ -62,6 +66,41 @@ app.delete('/events/:eventId', async (req, res) => {
   try {
     await deleteEvent(req.params.eventId)
     res.end('deleted')
+  } catch(e) {
+    logger.error(e)
+    res.status(500).end(e.message)
+  }
+})
+
+app.post('/users', async (req, res) => {
+  try {
+    await createUser(req.body)
+    res.sendStatus(201)
+  } catch(e) {
+    logger.error(e)
+    res.status(500).end(e.message)
+  }
+})
+
+app.delete('/users/:userId', async (req, res) => {
+  try {
+    await deleteUser(req.params.userId)
+    res.end('deleted')
+  } catch(e) {
+    logger.error(e)
+    res.status(500).end(e.message)
+  }
+})
+
+app.post('/participants', async (req, res) => {
+  try {
+    const { eventId, userId } = req.query
+    if (Array.isArray(userId)) {
+      await inviteUsers(eventId, userId)
+    } else {
+      await inviteUser(eventId, userId)
+    }
+    res.sendStatus(201)
   } catch(e) {
     logger.error(e)
     res.status(500).end(e.message)
