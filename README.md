@@ -21,32 +21,24 @@ curl --request POST 'http://localhost:3003/events' \
 --header 'Content-Type: application/json' \
 --data-raw '{
     "title":"PE",
-    "description":"",
-    "datetime":"2020-11-11T10:30:00.000Z",
+    "date":"2020-11-29",
+    "time":"10:30",
     "location":"odessa",
-    "repeat":"yearly",
-    "room":12,
-    "link":"",
-    "id":100
+    "creator_id":1
 }'
 ```
 
 **Update event:**
 ```
-curl --request PUT 'http://localhost:3003/events/3' \
+curl --request PUT 'http://localhost:3003/events/1' \
 --header 'Content-Type: application/json' \
 --data-raw '{
-    "id": "3",
-    "title": "yobaboba",
-    "datetime": "2020-11-08T14:14:58.000Z",
-    "repeat": "dayly",
-    "location": "odessa",
-    "room": "33"
+    "time":"12:45",
 }'
 ```
 
 **Delete event:**
-`curl --request DELETE 'http://localhost:3003/events/3'`
+`curl --request DELETE 'http://localhost:3003/events/1'`
 
 ***
 

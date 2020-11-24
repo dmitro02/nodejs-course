@@ -1,13 +1,13 @@
 const express = require('express')
-const { 
-  getEvents, 
-  getEventById, 
-  createEvent,
-  updateEvent,
-  deleteEvent
-} = require('./csvUtils')
 const logger = require('./logger')
 const expressPino = require('express-pino-logger')
+const { 
+  createEvent,
+  getEvents,
+  getEventById, 
+  updateEvent,
+  deleteEvent
+} = require('./dbService')
 
 const { port } = require('./config')
 
@@ -17,22 +17,24 @@ const app = express()
 app.use(express.json())
 app.use(expressLogger)
 
-app.get('/events', (req, res) => {
-  getEvents(req.query.location)
-    .on('error', (e) => {
-      logger.error(e)
-      res.status(500).end(e.message)
-    })
-    .pipe(res)
+app.get('/events', async (req, res) => {
+  try {
+    const events = await getEvents(req.query.location)
+    res.end(JSON.stringify(events, null, 2))
+  } catch(e) {
+    logger.error(e)
+    res.status(500).end(e.message)
+  }
 })
 
-app.get('/events/:eventId', (req, res) => {
-  getEventById(req.params.eventId)
-    .on('error', (e) => {
-      logger.error(e)
-      res.status(500).end(e.message)
-    })
-    .pipe(res)
+app.get('/events/:eventId', async (req, res) => {
+  try {
+    const event = await getEventById(req.params.eventId)
+    res.end(JSON.stringify(event, null, 2))
+  } catch(e) {
+    logger.error(e)
+    res.status(500).end(e.message)
+  }
 })
 
 app.post('/events', async (req, res) => {
@@ -51,6 +53,7 @@ app.put('/events/:eventId', async (req, res) => {
     res.end('updated')
   } catch(e) {
     logger.error(e)
+    if (e === 404) res.sendStatus(404)
     res.status(500).end(e.message)
   }
 })
