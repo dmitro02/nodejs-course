@@ -80,3 +80,16 @@ curl --request POST 'http://localhost:8000/users' \
 }'
 ```
 
+### Authorization requests examples
+
+`curl --request POST 'http://localhost:3003/login'`
+
+```
+curl --request GET 'http://localhost:3003/refresh_tokens' \
+--header 'Authorization: Bearer <your_refresh_token>'
+```
+
+```
+curl --request GET 'http://localhost:3003/check_access' \
+--header 'Authorization: Bearer <your_access_token>'
+```

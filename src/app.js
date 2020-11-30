@@ -8,14 +8,30 @@ const {
 } = require('./csvUtils')
 const logger = require('./logger')
 const expressPino = require('express-pino-logger')
+const JwtManager = require('./jwtManager')
 
 const { port } = require('./config')
 
 const expressLogger = expressPino({ logger })
 
+const jwtManager = new JwtManager()
+
 const app = express()
 app.use(express.json())
 app.use(expressLogger)
+
+const getTokenFromHeaders = (req) => {
+  return req.headers.authorization.split('Bearer')[1].trim()
+}
+
+const checkAccess = (req, res, next) => {
+  const accessToken = getTokenFromHeaders(req)
+  if (!jwtManager.isAccessTokenValid(accessToken)) {
+    res.sendStatus(401)
+  } else {
+    next()
+  }
+}
 
 app.get('/events', (req, res) => {
   getEvents(req.query.location)
@@ -63,6 +79,27 @@ app.delete('/events/:eventId', async (req, res) => {
     logger.error(e)
     res.status(500).end(e.message)
   }
+})
+
+app.post('/login', (req, res) => {
+  const tokens = jwtManager.generateTokens()
+  res.type('json')
+  res.end(JSON.stringify(tokens))
+})
+
+app.get('/refresh_tokens', (req, res) => {
+  const refreshToken = getTokenFromHeaders(req)
+  const newTokens = jwtManager.refreshTokens(refreshToken)
+  if (newTokens) {
+    res.type('json')
+    res.end(JSON.stringify(newTokens))
+  } else {
+    res.sendStatus(401)
+  }
+})
+
+app.get('/check_access', checkAccess, (req, res) => {
+  res.end('OK')
 })
 
 app.listen(port, () =>
