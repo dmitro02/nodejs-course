@@ -20,6 +20,19 @@ const app = express()
 app.use(express.json())
 app.use(expressLogger)
 
+const getTokenFromHeaders = (req) => {
+  return req.headers.authorization.split('Bearer')[1].trim()
+}
+
+const checkAccess = (req, res, next) => {
+  const accessToken = getTokenFromHeaders(req)
+  if (!jwtManager.isAccessTokenValid(accessToken)) {
+    res.sendStatus(401)
+  } else {
+    next()
+  }
+}
+
 app.get('/events', (req, res) => {
   getEvents(req.query.location)
     .on('error', (e) => {
@@ -75,7 +88,7 @@ app.post('/login', (req, res) => {
 })
 
 app.get('/refresh_tokens', (req, res) => {
-  const refreshToken = req.headers.authorization.split('Bearer')[1].trim()
+  const refreshToken = getTokenFromHeaders(req)
   const newTokens = jwtManager.refreshTokens(refreshToken)
   if (newTokens) {
     res.type('json')
@@ -85,13 +98,8 @@ app.get('/refresh_tokens', (req, res) => {
   }
 })
 
-app.get('/check_access', (req, res) => {
-  const accessToken = req.headers.authorization.split('Bearer')[1].trim()
-  if (jwtManager.isTokenValid(accessToken)) {
-    res.end('OK')
-  } else {
-    res.sendStatus(401)
-  }
+app.get('/check_access', checkAccess, (req, res) => {
+  res.end('OK')
 })
 
 app.listen(port, () =>

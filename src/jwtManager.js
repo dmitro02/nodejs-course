@@ -37,7 +37,7 @@ class JwtManager {
     revokeToken(token) {
         this.revokedTokens.add(token)
     }
-    isTokenValid(token) {
+    isAccessTokenValid(token) {
         try {
             const decoded = jwt.verify(token, this.publicKey)
             if (this.revokedTokens.has(token) || decoded.isRefresher) {
