@@ -1,19 +1,17 @@
 const jwt = require('jsonwebtoken')
 const fs = require('fs')
-const path = require('path')
 const logger = require('./logger')
 const { 
     jwtExpiresIn, 
-    jwtRefreshExpiresIn 
+    jwtRefreshExpiresIn,
+    privateKeyPath,
+    publicKeyPath
 } = require('./config')
-
-const privateKeyPath = '../test-ssl-keys/id_rsa'
-const publicKeyPath = '../test-ssl-keys/id_rsa.pub.pem'
 
 class JwtManager {
     constructor() {
-        this.privateKey = this.getPrivateKey()
-        this.publicKey = this.getPublicKey()
+        this.privateKey = fs.readFileSync(privateKeyPath)
+        this.publicKey = fs.readFileSync(publicKeyPath)
         this.revokedTokens = new Set()
         
         setInterval(this.cleanUpRevokedTokens.bind(this), 600000)
@@ -75,12 +73,6 @@ class JwtManager {
                 this.revokedTokens.delete(token)
             }
         })
-    }
-    getPrivateKey() {
-        return fs.readFileSync(path.join(__dirname, privateKeyPath))
-    }
-    getPublicKey() {
-        return fs.readFileSync(path.join(__dirname, publicKeyPath))
     }
 }
 
