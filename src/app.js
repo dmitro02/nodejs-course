@@ -8,10 +8,13 @@ const {
 } = require('./csvUtils')
 const logger = require('./logger')
 const expressPino = require('express-pino-logger')
+const JwtManager = require('./jwtManager')
 
 const { port } = require('./config')
 
 const expressLogger = expressPino({ logger })
+
+const jwtManager = new JwtManager()
 
 const app = express()
 app.use(express.json())
@@ -62,6 +65,32 @@ app.delete('/events/:eventId', async (req, res) => {
   } catch(e) {
     logger.error(e)
     res.status(500).end(e.message)
+  }
+})
+
+app.post('/login', (req, res) => {
+  const tokens = jwtManager.generateTokens()
+  res.type('json')
+  res.end(JSON.stringify(tokens))
+})
+
+app.get('/refresh_tokens', (req, res) => {
+  const refreshToken = req.headers.authorization.split('Bearer')[1].trim()
+  const newTokens = jwtManager.refreshTokens(refreshToken)
+  if (newTokens) {
+    res.type('json')
+    res.end(JSON.stringify(newTokens))
+  } else {
+    res.sendStatus(401)
+  }
+})
+
+app.get('/check_access', (req, res) => {
+  const accessToken = req.headers.authorization.split('Bearer')[1].trim()
+  if (jwtManager.isTokenValid(accessToken)) {
+    res.end('OK')
+  } else {
+    res.sendStatus(401)
   }
 })
 

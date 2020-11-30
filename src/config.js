@@ -3,4 +3,13 @@ process.argv.slice(2).forEach((arg) => {
     module.exports[arr[0].substring(1)] = arr[1]
 })
 
-module.exports.port = process.env.PORT || 3003
+options = {
+    port: process.env.PORT || 3003,
+    jwtExpiresIn: 30, 
+    jwtRefreshExpiresIn: 60 * 10
+}
+
+module.exports = {
+    ...module.exports,
+    ...options
+}
