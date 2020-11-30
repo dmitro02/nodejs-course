@@ -90,7 +90,6 @@ curl --request GET 'http://localhost:3003/refresh_tokens' \
 ```
 
 ```
-curl --location --request GET 'http://localhost:3003/check_access' \
+curl --request GET 'http://localhost:3003/check_access' \
 --header 'Authorization: Bearer <your_access_token>'
 ```
-
