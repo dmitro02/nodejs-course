@@ -27,7 +27,8 @@
     "mysql2": "^2.2.5",
     "nanoid": "^3.1.16",
     "pino": "^6.7.0",
-    "sequelize": "^6.3.5"
+    "sequelize": "^6.3.5",
+    "sqlite3": "^5.0.0"
   },
   "devDependencies": {
     "sequelize-auto": "^0.7.2"

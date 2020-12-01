@@ -4,11 +4,16 @@ const {
     dbName, 
     dbUser, 
     dbPass, 
-    dbDialect 
+    dbDialect,
+    dbStorage 
 } = require('./config')
 const { Sequelize } = require('sequelize')
-const initModels = require('./models/init-models')
 const logger = require('./logger')
+
+const modelsFolder = dbDialect === 'sqlite' 
+    ? 'models.sqlite' : 'models.mysql'
+
+const initModels = require(`./${modelsFolder}/init-models`)
 
 const sequelize = new Sequelize({
     host: dbHost,
@@ -16,7 +21,8 @@ const sequelize = new Sequelize({
     database: dbName,
     username: dbUser,
     password: dbPass,
-    dialect: dbDialect
+    dialect: dbDialect,
+    storage: dbStorage
 });
 
 const {

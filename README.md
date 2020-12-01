@@ -89,3 +89,10 @@ curl --request POST 'http://localhost:8000/users' \
 }'
 ```
 
+### sequelize-auto for mysql and slite
+
+`./node_modules/.bin/sequelize-auto -o "./models" -d calendar -h 34.89.206.41 -p 3306 -u root -x ***** -e mysql`
+
+ `./node_modules/.bin/sequelize-auto -o "./models2" -h localhost -d calendar.sqlite -e sqlite -c ./sqlite-config.json`
+
+sqlite-config.json content: `{ "storage":"./playground/calendar.sqlite" }`
