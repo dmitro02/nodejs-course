@@ -21,32 +21,41 @@ curl --request POST 'http://localhost:3003/events' \
 --header 'Content-Type: application/json' \
 --data-raw '{
     "title":"PE",
-    "description":"",
-    "datetime":"2020-11-11T10:30:00.000Z",
+    "date":"2020-11-29",
+    "time":"10:30",
     "location":"odessa",
-    "repeat":"yearly",
-    "room":12,
-    "link":"",
-    "id":100
+    "creator_id":1
 }'
 ```
 
 **Update event:**
 ```
-curl --request PUT 'http://localhost:3003/events/3' \
+curl --request PUT 'http://localhost:3003/events/1' \
 --header 'Content-Type: application/json' \
 --data-raw '{
-    "id": "3",
-    "title": "yobaboba",
-    "datetime": "2020-11-08T14:14:58.000Z",
-    "repeat": "dayly",
-    "location": "odessa",
-    "room": "33"
+    "time":"12:45",
 }'
 ```
 
 **Delete event:**
-`curl --request DELETE 'http://localhost:3003/events/3'`
+`curl --request DELETE 'http://localhost:3003/events/1'`
+
+**Create user:**
+```
+curl --request POST 'http://localhost:3003/users' \
+--header 'Content-Type: application/json' \
+--data-raw '{
+    "email":"testuser@some.net",
+    "first_name":"Test",
+    "last_name":"Peretest"
+}'
+```
+
+**Delete user:**
+`curl --request DELETE 'http://localhost:3003/users/5'`
+
+**Invite user:**
+`curl --request POST 'http://localhost:3003/participants?eventId=1&userId=1&userId=2&userId=3'`
 
 ***
 
@@ -80,3 +89,10 @@ curl --request POST 'http://localhost:8000/users' \
 }'
 ```
 
+### sequelize-auto for mysql and slite
+
+`./node_modules/.bin/sequelize-auto -o "./models" -d calendar -h 34.89.206.41 -p 3306 -u root -x ***** -e mysql`
+
+ `./node_modules/.bin/sequelize-auto -o "./models2" -h localhost -d calendar.sqlite -e sqlite -c ./sqlite-config.json`
+
+sqlite-config.json content: `{ "storage":"./playground/calendar.sqlite" }`
