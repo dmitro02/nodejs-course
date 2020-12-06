@@ -23,8 +23,11 @@
     "csvtojson": "^2.0.10",
     "express": "^4.17.1",
     "express-pino-logger": "^5.0.0",
+    "file-type": "^16.0.1",
     "nanoid": "^3.1.16",
-    "pino": "^6.7.0"
+    "node-static": "^0.7.11",
+    "pino": "^6.7.0",
+    "websocket": "^1.0.32"
   },
   "devDependencies": {}
 }
